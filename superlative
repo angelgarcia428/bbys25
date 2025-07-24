@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Superlative Nominations</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: auto; }
+    h1 { font-size: 1.5em; }
+    select { width: 100%; padding: 8px; margin: 10px 0; }
+    label { font-weight: bold; margin-top: 20px; display: block; }
+    button { padding: 10px 20px; font-size: 16px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h1>Superlative Nominations</h1>
+  <form id="superlativeForm">
+  </form>
+
+  <button type="submit" form="superlativeForm">Submit</button>
+
+  <script>
+    const names = [
+      "Adrian G", "Angel G", "Ankit T", "Anna G", "Brooke S", "Cam J", "Collin T",
+      "Dameli U", "Emily B", "Gavin I", "Heather M", "Isabella S", "James V", "Jared F",
+      "Jasmine B", "Jeremy C", "Jon C", "Jordan F", "Lekai T", "Lonelle P", "Mesa V",
+      "Owen D", "Rob R", "Ryan B", "Ryan M", "Sydney P", "Tiffany D", "Victoria T"
+    ];
+
+    const superlatives = [
+      "Most likely to break a world record and break all their bones in the process",
+      "Most likely to join a cult “for the plot” and eventually become the leader",
+      "Most likely to drop acid and still file their taxes correctly",
+      "Most likely to become a van guy/girl and end up on a true crime Netflix series as a witness",
+      "Most likely to win the lottery and be bankrupt within a year",
+      "Most likely to plan their bachelor/bachelorette party for Las Vegas, NV but book everything in Las Vegas, NM",
+      "Most likely to liquidate their 401k to buy a compound for the friend group",
+      "Most likely to get discovered by someone with an extreme foot fetish and get all their debts paid off",
+      "Most likely to get on reality TV and get no air time except for 1 embarrassing moment that goes viral",
+      "Most likely to get their identity stolen and it actually improves their credit score and financial status",
+      "Most likely to donate money to a Nigerian prince and it ends up being real and they become royalty",
+      "Most likely to get blindfolded and dropped off anywhere in Seattle and not be able to get home by foot for a week",
+      "Most likely to end up on a yacht with gays that are trying to kill them",
+      "Most likely to plot to kill their boss and not be able to go through with it and then accidentally run them over with their car",
+      "Most likely to set off the Lunk Alarm every time they are at a Planet Fitness",
+      "Most likely to show up late to their own wedding because they got ready, hated it, and started over 3 times",
+      "Most likely to drop off the face of the earth for a year and show up randomly for a Booty Bandit Bday unannounced",
+      "Most likely to try to have a kid at the same time as their homie/bestie in hopes their kids will get married and you will be related",
+      "Most likely to try to set you up with a relative/cousin in hopes you guys get married and you will be related",
+      "Most likely to be hired as an unlicensed therapist by a millionaire because you give such good advice",
+      "Most likely to get a larynx (voice box) transplant from the first ever case of hyperyapping syndrome",
+      "Most likely to get a blood alcohol level (BAC) as high as their high school GPA",
+      "Most likely to end up as the final girl/boy in a horror movie by sheer accident rather than skill",
+      "Most likely to get a matching tattoo with a stranger they just trauma-bonded with in a bar bathroom",
+      "Most likely to spend their life doomsday prepping only to lose their shit and become useless when an actual apocalypse happens",
+      "Most likely to offer to play a set at a family member's funeral",
+      "Most likely to put their pets as beneficiaries on their life insurance vs their kids/spouse",
+      "Most likely to discover a squatter living in their house but makes them part of the family"
+    ];
+
+    const form = document.getElementById('superlativeForm');
+    const dropdowns = [];
+
+    // Create dropdowns
+    superlatives.forEach((title, index) => {
+      const label = document.createElement('label');
+      label.htmlFor = `dropdown${index}`;
+      label.textContent = title;
+
+      const select = document.createElement('select');
+      select.name = `superlative_${index}`;
+      select.id = `dropdown${index}`;
+      select.innerHTML = `<option value="">-- Select a nominee --</option>`;
+
+      names.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.text = name;
+        select.appendChild(option);
+      });
+
+      select.addEventListener('change', updateDropdowns);
+      dropdowns.push(select);
+
+      form.appendChild(label);
+      form.appendChild(select);
+    });
+
+    function updateDropdowns() {
+      const selected = new Set(dropdowns.map(d => d.value).filter(Boolean));
+
+      dropdowns.forEach(dropdown => {
+        const currentValue = dropdown.value;
+        dropdown.querySelectorAll('option').forEach(option => {
+          if (option.value === "") return;
+
+          option.disabled = selected.has(option.value) && option.value !== currentValue;
+        });
+      });
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = {};
+      dropdowns.forEach((dropdown, i) => {
+        data[`superlative_${i + 1}`] = dropdown.value;
+      });
+
+      console.log("Submitted Data:", data);
+      alert("Form submitted! Check the console for output.");
+    });
+  </script>
+
+</body>
+</html>
